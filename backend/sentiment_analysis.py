@@ -21,22 +21,25 @@ class SentimentAnalysis:
         if sys.maxunicode == 65535:
             self.encoding = enums.EncodingType.UTF16
 
-    def analyse_text(self, text):
+    def analyse_text(self, knowledge, text):
+        existingEntities = knowledge
         document = types.Document(
             content=text,
             type=enums.Document.Type.PLAIN_TEXT)
         sentiment = self.client.analyze_entity_sentiment(document=document, encoding_type=self.encoding)
-        entity_list = list();
         for entity in sentiment.entities:
-            idea = (SentimentEntity(entity.name, entity.type))
+            if existingEntities.hasKey(entity):
+                idea = existingEntities.get(entity)
+            else:
+                idea = (SentimentEntity(entity.name, entity.type))
             sentimentlist = list()
             magnitudelist = list()
             for mention in entity.mentions:
                 sentimentlist.append(mention.sentiment.score)
                 magnitudelist.append(mention.sentiment.magnitude)
-            idea.addSentiments(sentimentlist, magnitudelist)
-            entity_list.append(idea)
-        return entity_list
+                idea.addSentiments(sentimentlist, magnitudelist)
+                existingEntities[idea.name] = idea
+        return existingEntities
 
 
 class SentimentEntity:
