@@ -15,8 +15,11 @@ class MessagesViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
 
+        latitude = request.data['latitude']
+        longitude = request.data['longitude']
+
         # TODO: Have a learn here
-        # bot_response = bot().read_input(serializer.data['contents'])
+        # bot_response = bot().read_input(serializer.data['contents'], latitude, longitude)
 
         bot_response = {
             'message': 'Hi!',

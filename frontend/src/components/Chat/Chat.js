@@ -74,30 +74,36 @@ class Chat extends Component {
   handleSendMessage = e => {
     e.preventDefault()
 
-    const body = JSON.stringify({
-      contents: this.state.message,
-      user_id: 1,
-    })
+    navigator.geolocation.getCurrentPosition(position => {
+      const { latitude, longitude } = position.coords
 
-    fetch(`${API_ENDPOINT}/messaging/messages/`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body,
-    })
-      .then(res => res.json())
-      .then(res => {
-        this.setState(
-          state => ({
-            messages: [...state.messages, {from: 1, contents: res.message.contents}],
-            message: '',
-          }),
-          this.scrollChatDown,
-        )
-
-        console.log('Bot message!', res.bot_message)
+      const body = JSON.stringify({
+        contents: this.state.message,
+        user_id: 1,
+        longitude,
+        latitude,
       })
+
+      fetch(`${API_ENDPOINT}/messaging/messages/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body,
+      })
+        .then(res => res.json())
+        .then(res => {
+          this.setState(
+            state => ({
+              messages: [...state.messages, {from: 1, contents: res.message.contents}],
+              message: '',
+            }),
+            this.scrollChatDown,
+          )
+
+          console.log('Bot message!', res.bot_message)
+        })
+    })
   }
 
   render() {
