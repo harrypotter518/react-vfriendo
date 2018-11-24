@@ -1,14 +1,13 @@
 :root {
-  --blue: rgb(2, 124, 247);
+  --blue: rgb(95, 111, 238);
+  --blue-light: rgb(211, 216, 255);
   --white: rgb(255, 255, 255);
   --offwhite: rgb(252, 253, 255);
   --offwhite-transparent: rgba(252, 253, 255, 0.5);
-  --gray-light: rgb(176, 189, 201);
-  --light-blue: rgb(241, 248, 255);
-  --light-blue-transparent: rgba(226, 232, 237, 0.3);
-  --shadow-light: 0 2px 10px 0 rgba(0, 0, 0, 0.02),
-    0 1px 5px 0 rgba(0, 0, 0, 0.05);
-  --black: rgb(0, 41, 83);
+  --gray-light: rgb(192, 197, 234);
+  --shadow-dark: 0 1px 4px 0 rgb(224, 228, 255), 0 1px 12px 1px rgb(240, 241, 255);
+  --shadow-light: 0 1px 2px 0 rgb(240, 242, 255), 0 1px 8px 1px rgb(245, 246, 255);
+  --black: rgb(18, 11, 68);
   --secondary: rgb(78, 205, 196);
   --message-border-radius: 32px;
   --message-border-radius-decreased: 4px;
