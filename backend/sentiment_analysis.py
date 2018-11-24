@@ -5,6 +5,7 @@ import sys
 from google.cloud import language
 from google.cloud.language import enums
 from google.cloud.language import types
+import pickle
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.path.dirname(os.path.abspath(__file__)) + '/cloudapi-credentials.json'
 
 DISCOVERY_URL = ('https://{api}.googleapis.com/'
@@ -45,6 +46,29 @@ class SentimentAnalysis:
                 existingEntities[idea.name] = idea
         return existingEntities
 
+
+    def makemodel(self):
+        """
+        text = ""
+        with open(os.path.dirname(os.path.abspath(__file__)) + '/botdata/conversationcorpus/movie_lines.txt', 'r',
+                  encoding= "ISO-8859-1") as f:
+            lines = f.readlines()
+            for line in lines:
+                line = line.split("+++$+++")
+                text += line[4]
+                #print(line[3])
+                print(line[4])
+        g = open(os.path.dirname(os.path.abspath(__file__)) + '/botdata/conversationcorpus/convo_text.txt', 'w')
+        g.write(text)
+        g.close()
+        """
+        with open(os.path.dirname(os.path.abspath(__file__)) + '/botdata/conversationcorpus/convo_text.txt', 'r',
+                  encoding= "ISO-8859-1") as f:
+            content = f.read()
+        model = self.analyse_text({}, content)
+        f = open('convo_model.txt', 'w')
+        pickle.dump(model, f)
+        f.close()
 
 class SentimentEntity:
     """A class for storing sentimence information."""

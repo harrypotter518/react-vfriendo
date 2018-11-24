@@ -3,12 +3,14 @@ import os
 from sentiment_analysis import SentimentAnalysis
 import aiml
 import os
+from services.google_places import search_places
 
 from google.cloud import language
 
 
 class ChatBot:
     sentiment = SentimentAnalysis()
+    #sentiment.makemodel()
     knowledge = {}
     historybuffer = list()  # contains the 10 most recent messages
     # The Kernel object is the public interface to
@@ -29,20 +31,25 @@ class ChatBot:
                 self.status = False
             else:
                 self.status = True
-                return self.reply(input, "location")
+                return self.reply(input, "location", latitude, longitude)
         if self.status is True:
-            return self.reply(input, "aiml")
+            return self.reply(input, "aiml", latitude, longitude)
         return None
 
-    def reply(self, message, case):
+    def reply(self, message, case, latitude, longitude):
         if case == "aiml":
             return {
                 'message': self.aimlresponse(message),
             }
         elif case == "location":
+            if len(self.historytext) < 5:
+                return {
+                    'message': "I am not sure.",
+                }
             group = self.classify(self.historytext())
+            results = search_places(latitude, longitude, 1500, group[0])
             return {
-                'message': "Location time",
+                'message': "Results",
             }
 
     def aimlresponse(self, input):
@@ -78,6 +85,8 @@ class ChatBot:
 
     # Returns the top 3 interests of the person
     def returnInterests(self):
+        entity_type = ('UNKNOWN', 'PERSON', 'LOCATION', 'ORGANIZATION',
+                       'EVENT', 'WORK_OF_ART', 'CONSUMER_GOOD', 'OTHER')
         topthree = list()
         for entity in self.knowledge.values():
             if entity.isPositive() is False:
