@@ -5,7 +5,7 @@
 <!-- Last modified 24/11/2018 -->
 <!-- -->
 <category>
-<pattern> * PEPPERONI PIZZA * </pattern>
-<template> THIS MAKES ME WISH I HAD A BODY SO I COULD EAT PIZZA. </template>
+<pattern> YOU REMEMBER THAT PEPPERONI PIZZA * </pattern>
+<template> This makes me wish I had a body so I could eat pizza. </template>
 </category>
-
+</aiml>
