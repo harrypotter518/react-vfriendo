@@ -165,6 +165,12 @@ class Chat extends Component {
             this.scrollChatDown,
           )
         })
+        .catch(err => {
+          console.error(err)
+          this.setState({
+            isSubmitting: false,
+          })
+        })
     })
   }
 
