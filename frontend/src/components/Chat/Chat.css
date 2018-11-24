@@ -7,24 +7,43 @@
 }
 
 .chat__header {
-  padding-bottom: 1.5rem;
+  padding-bottom: 0;
+  z-index: 2;
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  left: 16px;
 }
 
 .chat__content {
   flex: 1;
   overflow-y: scroll;
-  margin: 0 -5px;
+  margin: 40px -5px 0;
   padding: 0 5px;
+}
+
+.back-btn {
+    height: 1rem;
+    width: 1rem;
+}
+
+.back-btn svg {
+    fill: var(--gray-light);
 }
 
 .header__container {
   display: flex;
-  justify-content: center;
-  padding: 20px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 12px 12px 24px;
   border-radius: 100px;
   background-color: var(--white);
   box-shadow: var(--shadow-light);
   text-align: center;
+}
+
+.header__container div {
+    flex: 1;
 }
 
 .header__name {
@@ -33,17 +52,48 @@
 }
 
 .header__status {
-  font-size: 0.75rem;
+  font-size: 0.88rem;
   color: var(--gray-light);
 }
 
 .message__container {
   display: flex;
+  flex-direction: column;
   margin-bottom: 4px;
 }
 
+::-webkit-scrollbar {
+    display: none;
+}
+
+.message__container:last-child {
+    margin-bottom: 1.5rem
+}
+
+.message__container:first-child {
+    margin-top: 4rem;
+}
+
 .message__container--mine {
-  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.message__container--others {
+    align-items: flex-end;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.message__container--others .message__container--inner {
+    margin-left: 0.5rem;
+}
+
+.avatar {
+    height: 32px;
+    width: 32px;
+    border-radius: 100px;
+    background-image: url("/avatar.png");
+    background-size: contain;
 }
 
 .message__container--mine + .message__container--others {
@@ -54,14 +104,58 @@
   margin-top: 2rem;
 }
 
+/* first message in my series */
+.message__container--mine .message:first-child {
+    border-bottom-right-radius: var(--message-border-radius-decreased);
+}
+
+/* middle message in my series */
+.message__container--mine .message:not(:first-child):not(:last-child) {
+    border-top-right-radius: var(--message-border-radius-decreased);
+    border-bottom-right-radius: var(--message-border-radius-decreased);
+}
+/* last message in my series */
+.message__container--mine .message:last-child {
+  border-top-right-radius: var(--message-border-radius-decreased);
+  border-bottom-right-radius: var(--message-border-radius);
+}
+ /* only message in my series */
+.message__container--mine .message:only-of-type {
+    border-radius: var(--message-border-radius);
+}
+
+/* first message in other series */
+.message__container--others .message:first-child {
+    border-bottom-left-radius: var(--message-border-radius-decreased);
+}
+
+/* middle message in other series */
+.message__container--others .message:not(:first-child):not(:last-child) {
+    border-top-left-radius: var(--message-border-radius-decreased);
+    border-bottom-left-radius: var(--message-border-radius-decreased);
+}
+
+/* last message in other series */
+.message__container--others .message:last-child {
+  border-top-left-radius: var(--message-border-radius-decreased);
+  border-bottom-left-radius: var(--message-border-radius);
+}
+
+/* only message in other series */
+.message__container--others .message:only-of-type {
+   border-radius: var(--message-border-radius);
+}
+
 .message {
   padding: 0.5rem 1rem;
-  border-radius: 100px;
+  margin: 2px 0;
+  border-radius: var(--message-border-radius);
 }
 
 .message__container--mine .message {
   background-color: var(--blue);
   color: var(--white);
+  border-bottom-right-radius: var(--message-border-radius-decreased);
 }
 
 .message__container--others .message {
@@ -72,7 +166,6 @@
 .input__container {
   display: flex;
   background-color: var(--white);
-  margin-top: 1.5rem;
   padding: 4px 4px 4px 24px;
   border-radius: 100px;
   box-shadow: var(--shadow-light);
@@ -88,7 +181,7 @@
 }
 
 .input__submit {
-  background-color: var(--offwhite);
+  background-color: var(--light-blue);
   border: none;
   border-radius: 100px;
   padding: 0.75rem;
@@ -97,6 +190,7 @@
 .input__submit svg {
   height: 1rem;
   width: 1rem;
+  transform: translateX(-1px)translateY(1px);
 }
 
 .input__submit path {

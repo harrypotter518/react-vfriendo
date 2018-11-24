@@ -2,10 +2,14 @@
   --blue: rgb(2, 124, 247);
   --white: rgb(255, 255, 255);
   --offwhite: rgb(252, 253, 255);
+  --offwhite-transparent: rgba(252, 253, 255, 0.5);
   --gray-light: rgb(176, 189, 201);
+  --light-blue: rgb(241, 248, 255);
   --shadow-light: 0 2px 10px 0 rgba(0, 0, 0, 0.02),
     0 1px 5px 0 rgba(0, 0, 0, 0.05);
   --black: rgb(0, 41, 83);
+  --message-border-radius: 32px;
+  --message-border-radius-decreased: 4px;
 }
 
 body {
