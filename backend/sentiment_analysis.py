@@ -28,8 +28,8 @@ class SentimentAnalysis:
             type=enums.Document.Type.PLAIN_TEXT)
         sentiment = self.client.analyze_entity_sentiment(document=document, encoding_type=self.encoding)
         for entity in sentiment.entities:
-            if existingEntities.hasKey(entity):
-                idea = existingEntities.get(entity)
+            if entity.name in existingEntities.keys():
+                idea = existingEntities.get(entity.name)
             else:
                 idea = (SentimentEntity(entity.name, entity.type))
             sentimentlist = list()
@@ -58,9 +58,9 @@ class SentimentEntity:
         self.nummentions = 0
 
     def addSentiments(self, scorelist, magnitudelist):
-        self.score = scorelist.extend(self.score)
+        self.score.extend(scorelist)
         self.scoreVal = stat.mean(self.score)
-        self.magnitude = magnitudelist.extend(self.magnitude)
+        self.magnitude.extend(magnitudelist)
         self.magVal = stat.mean(self.magnitude)
         self.nummentions = self.nummentions + scorelist.__sizeof__()
 
