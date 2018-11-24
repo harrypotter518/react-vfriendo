@@ -100,7 +100,7 @@
 }
 
 .avatar.bot {
-    background-image: url("/bot.svg");
+    background-image: url("/logo.svg");
 }
 
 .message__container--mine + .message__container--others {
