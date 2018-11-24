@@ -40,6 +40,7 @@ class Chat extends Component {
       {from: 2, options: ['Dinner', 'Entertainment', 'Shopping'], selected: "Entertainment"}
     ],
     message: '',
+    isSubmitting: false,
   }
 
   chatContent = null
@@ -103,11 +104,26 @@ class Chat extends Component {
   handleSendMessage = e => {
     e.preventDefault()
 
+    if (!this.state.message || this.state.isSubmitting) {
+      return
+    }
+
+    const { message } = this.state
+
+    this.setState(
+      state => ({
+        messages: [...state.messages, {from: 1, contents: message}],
+        message: '',
+        isSubmitting: true,
+      }),
+      this.scrollChatDown,
+    )
+
     navigator.geolocation.getCurrentPosition(position => {
       const { latitude, longitude } = position.coords
 
       const body = JSON.stringify({
-        contents: this.state.message,
+        contents: message,
         user_id: 1,
         longitude,
         latitude,
@@ -123,10 +139,29 @@ class Chat extends Component {
         .then(res => res.json())
         .then(res => {
           this.setState(
-            state => ({
-              messages: [...state.messages, {from: 1, contents: res.message.contents}],
-              message: '',
-            }),
+            state => {
+              const newMessages = [...state.messages]
+
+              if (res.bot_response) {
+                newMessages.push({
+                  from: 2,
+                  contents: res.bot_response.message,
+                })
+
+                if (res.bot_response.options) {
+                  newMessages.push({
+                    from: 2,
+                    options: res.bot_response.options,
+                    selected: null,
+                  })
+                }
+              }
+
+              return {
+                messages: newMessages,
+                isSubmitting: false,
+              }
+            },
             this.scrollChatDown,
           )
         })
@@ -134,7 +169,7 @@ class Chat extends Component {
   }
 
   render() {
-    const {message} = this.state
+    const {message, isSubmitting} = this.state
 
     return (
       <div className="chat__container">
@@ -213,7 +248,7 @@ class Chat extends Component {
             value={message}
             onChange={this.handleMessageChanged}
           />
-          <button type="submit" className="input__submit">
+          <button type="submit" className="input__submit" disabled={isSubmitting}>
             <svg viewBox="0 0 18 16" version="1.1" xmlns="http://www.w3.org/2000/svg">
                 <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
                     <g id="Screen-1" transform="translate(-323.000000, -615.000000)" fill="#027CF7">

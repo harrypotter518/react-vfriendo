@@ -26,8 +26,8 @@ class ChatBot:
         if self.historybuffer.__sizeof__() == 10:
             self.historybuffer.pop()
         self.knowledge = self.sentiment.analyse_text(self.knowledge, input)
-        if "@bot" or "@Bot" in input:
-            if "@bot-off" in input: # @bot-off is the keyword to turn it off
+        if "@bot" in input or "@Bot" in input:
+            if "@bot-off" in input:
                 self.status = False
             else:
                 self.status = True

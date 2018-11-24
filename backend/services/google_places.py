@@ -109,7 +109,7 @@ def search_places(latitude, longitude, radius=1500, place_type=PlaceType.restaur
         'key': api_key,
         'location': location,
         'radius': radius,
-        'type': place_type,
+        'type': place_type.value,
     })
 
     suggestions = response.json()['results']

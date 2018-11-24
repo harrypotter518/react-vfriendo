@@ -90,8 +90,8 @@
 }
 
 .avatar {
-    height: 32px;
-    width: 32px;
+    height: 40px;
+    width: 40px;
     border-radius: 100px;
     background-image: url("/avatar.png");
     background-size: contain;
@@ -181,7 +181,7 @@
     align-items: center;
     margin-top: 1rem;
     flex-wrap: wrap;
-    padding-left: 1.5rem;
+    padding-left: 2rem;
 }
 
 .option {
@@ -189,27 +189,20 @@
     margin: 4px 0.5rem;
     border-radius: var(--message-border-radius);
     background-color: var(--white);
-    color: var(--secondary);
+    color: var(--blue);
     box-shadow: var(--shadow-light);
-    border: 1px solid var(--secondary);
+    border: 1px solid var(--blue);
     font-size: 1em;
+    user-select: none;
 }
 
 .option:focus {
     outline: none;
 }
 
-.option span {
-    color: var(--gray-light);
-}
-
 .option.selected {
-    background-color: var(--secondary);
+    background-color: var(--blue);
     color: var(--white);
-}
-
-.option.selected span {
-    color: var(--light-blue-transparent);
 }
 
 .input__container {
