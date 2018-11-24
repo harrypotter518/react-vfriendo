@@ -135,11 +135,17 @@ class Chat extends Component {
                   : 'message__container--others'
                 }`}
             >
-            {group.messages.map((message, index_1) => (
-                <div
-                key={index_1}
-                className="message">{message.contents}</div>
-            ))}
+                {group.from !== 1 && (
+                    <div class="avatar"></div>
+                )}
+                <div class="message__container--inner">
+                    {group.messages.map((message, index_1) => (
+                        <div
+                            key={index_1}
+                            className="message">{message.contents}
+                        </div>
+                    ))}
+                </div>
             </div>
           ))}
         </div>
