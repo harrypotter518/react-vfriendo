@@ -1,0 +1,90 @@
+.chat__container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--offwhite);
+  padding: 12px 16px;
+}
+
+.chat__header {
+}
+
+.chat__content {
+  flex: 1;
+}
+
+.header__container {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  border-radius: 100px;
+  background-color: var(--white);
+  box-shadow: var(--shadow-light);
+  text-align: center;
+}
+
+.header__name {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.header__status {
+  font-size: 0.75rem;
+  color: var(--gray-light);
+}
+
+.message__container {
+  display: flex;
+}
+
+.message__container--mine {
+  justify-content: flex-end;
+}
+
+.message {
+  padding: 0.5rem 1rem;
+  border-radius: 100px;
+}
+
+.message__container--mine .message {
+  background-color: var(--blue);
+  color: var(--white);
+}
+
+.message__container--others .message {
+  background-color: var(--white);
+  box-shadow: var(--shadow-light);
+}
+
+.input__container {
+  display: flex;
+  background-color: var(--white);
+  padding: 4px 4px 4px 24px;
+  border-radius: 100px;
+  box-shadow: var(--shadow-light);
+}
+
+.input__input {
+  flex: 1;
+  font-size: 1rem;
+}
+
+.input__input:focus {
+  outline: none;
+}
+
+.input__submit {
+  background-color: var(--offwhite);
+  border: none;
+  border-radius: 100px;
+  padding: 0.75rem;
+}
+
+.input__submit svg {
+  height: 1rem;
+  width: 1rem;
+}
+
+.input__submit path {
+  fill: var(--blue);
+}
