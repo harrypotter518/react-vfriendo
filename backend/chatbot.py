@@ -10,6 +10,7 @@ from google.cloud import language
 
 class ChatBot:
     sentiment = SentimentAnalysis()
+    #sentiment.makemodel()
     knowledge = {}
     historybuffer = list()  # contains the 10 most recent messages
     # The Kernel object is the public interface to
