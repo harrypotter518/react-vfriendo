@@ -17,6 +17,7 @@ class Chat extends Component {
       {from: 0, contents: 'Hello to you too!'},
       {from: 1, contents: 'What\'s up?'},
       {from: 1, contents: 'Hello!'},
+      {from: 1, contents: 'Hello again!'},
       {from: 0, contents: 'Hello to you too!'},
       {from: 1, contents: 'What\'s up?'},
       {from: 1, contents: 'Hello!'},
@@ -24,7 +25,7 @@ class Chat extends Component {
       {from: 1, contents: 'What\'s up?'},
       {from: 1, contents: 'Hello!'},
       {from: 0, contents: 'Hello to you too!'},
-      {from: 0, contents: 'Hello to you too!'},
+      {from: 0, contents: 'Hello to you too again!'},
       {from: 1, contents: 'What\'s up?'},
       {from: 1, contents: 'Hello!'},
       {from: 0, contents: 'Hello to you too!'},
@@ -98,12 +99,18 @@ class Chat extends Component {
 
   render() {
     const {messages, message} = this.state
-    console.log(this.groupedMessages())
 
     return (
       <div className="chat__container">
         <div className="chat__header">
           <div className="header__container">
+            <a href="#" class="back-btn">
+                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 129 129" enableBackground="new 0 0 129 129">
+                  <g>
+                    <path d="m88.6,121.3c0.8,0.8 1.8,1.2 2.9,1.2s2.1-0.4 2.9-1.2c1.6-1.6 1.6-4.2 0-5.8l-51-51 51-51c1.6-1.6 1.6-4.2 0-5.8s-4.2-1.6-5.8,0l-54,53.9c-1.6,1.6-1.6,4.2 0,5.8l54,53.9z"/>
+                  </g>
+                </svg>
+            </a>
             <div>
               <div className="header__name">Some Guy</div>
               <div className="header__status">Active now</div>
@@ -116,16 +123,20 @@ class Chat extends Component {
             this.chatContent = ref
           }}
         >
-          {messages.map((message, index) => (
+          {this.groupedMessages().map((group, index) => (
             <div
               key={index}
               className={`message__container ${
-                message.from === 1
+                group.from === 1
                   ? 'message__container--mine'
                   : 'message__container--others'
                 }`}
             >
-              <div className="message">{message.contents}</div>
+            {group.messages.map((message, index_1) => (
+                <div
+                key={index_1}
+                className="message">{message.contents}</div>
+            ))}
             </div>
           ))}
         </div>
@@ -135,12 +146,13 @@ class Chat extends Component {
             type="text"
             placeholder="Type your message..."
             name="message"
+            autocomplete="off"
             value={message}
             onChange={this.handleMessageChanged}
           />
           <button type="submit" className="input__submit">
             <svg viewBox="0 0 18 16" version="1.1" xmlns="http://www.w3.org/2000/svg">
-                <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
                     <g id="Screen-1" transform="translate(-323.000000, -615.000000)" fill="#027CF7">
                         <g id="Textarea" transform="translate(12.000000, 591.000000)">
                             <g id="send-btn" transform="translate(299.000000, 8.000000)">

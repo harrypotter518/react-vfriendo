@@ -22,14 +22,28 @@
   padding: 0 5px;
 }
 
+.back-btn {
+    height: 1rem;
+    width: 1rem;
+}
+
+.back-btn svg {
+    fill: var(--gray-light);
+}
+
 .header__container {
   display: flex;
-  justify-content: center;
-  padding: 20px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 16px 16px 24px;
   border-radius: 100px;
   background-color: var(--white);
   box-shadow: var(--shadow-light);
   text-align: center;
+}
+
+.header__container div {
+    flex: 1;
 }
 
 .header__name {
@@ -38,13 +52,18 @@
 }
 
 .header__status {
-  font-size: 0.75rem;
+  font-size: 0.88rem;
   color: var(--gray-light);
 }
 
 .message__container {
   display: flex;
+  flex-direction: column;
   margin-bottom: 4px;
+}
+
+::-webkit-scrollbar {
+    display: none;
 }
 
 .message__container:last-child {
@@ -56,7 +75,11 @@
 }
 
 .message__container--mine {
-  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.message__container--others {
+    align-items: flex-start;
 }
 
 .message__container--mine + .message__container--others {
@@ -67,19 +90,43 @@
   margin-top: 2rem;
 }
 
+/* first message in my series */
+.message__container--mine .message:first-child {
+    border-bottom-right-radius: var(--message-border-radius-decreased);
+}
 
-.message__container--mine + .message__container--mine .message {
+/* middle message in my series */
+.message__container--mine .message:not(:first-child):not(:last-child) {
+    border-top-right-radius: var(--message-border-radius-decreased);
+    border-bottom-right-radius: var(--message-border-radius-decreased);
+}
+/* last message in my series */
+.message__container--mine .message:last-child {
   border-top-right-radius: var(--message-border-radius-decreased);
   border-bottom-right-radius: var(--message-border-radius);
 }
 
-.message__container--mine:not(:first-of-type):not(:last-of-type) .message {
-    border-top-right-radius: var(--message-border-radius-decreased);
-    border-bottom-right-radius: var(--message-border-radius-decreased);
+/* first message in other series */
+.message__container--others .message:first-child {
+    border-bottom-left-radius: var(--message-border-radius-decreased);
 }
+
+/* middle message in other series */
+.message__container--others .message:not(:first-child):not(:last-child) {
+    border-top-left-radius: var(--message-border-radius-decreased);
+    border-bottom-left-radius: var(--message-border-radius-decreased);
+}
+
+/* last message in other series */
+.message__container--others .message:last-child {
+  border-top-left-radius: var(--message-border-radius-decreased);
+  border-bottom-left-radius: var(--message-border-radius);
+}
+
 
 .message {
   padding: 0.5rem 1rem;
+  margin: 2px 0;
   border-radius: var(--message-border-radius);
 }
 
