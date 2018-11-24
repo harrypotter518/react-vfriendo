@@ -27,8 +27,13 @@ class ChatBot:
             self.historybuffer.pop()
         self.knowledge = self.sentiment.analyse_text(self.knowledge, input)
         if "@bot" in input or "@Bot" in input:
-            if "@bot-off" in input:
+            input_list = input.split(' ')
+            keyword = input_list[1] if len(input_list) else 'on'
+
+            if keyword == 'off':
                 self.status = False
+            elif keyword == 'topic':
+                return self.reply(input, 'topic')
             else:
                 self.status = True
                 return self.reply(input, "location", latitude, longitude)
@@ -65,10 +70,17 @@ class ChatBot:
                     query = category_split[2]  # Fast Food or Pizzeria
 
             results = search_places(latitude, longitude, place_type=place_type, keyword=query)
+            results = results[:4]
 
             return {
                 'message': 'How about one of these?',
                 'options': [place['name'] for place in results],
+            }
+        elif case == 'topic':
+            # TODO: Do
+            return {
+                'message': 'How about one of these topics?',
+                'options': [],
             }
 
     def aimlresponse(self, input):
