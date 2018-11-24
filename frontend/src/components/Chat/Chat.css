@@ -94,6 +94,12 @@
     border-radius: 100px;
     background-image: url("/avatar.png");
     background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.avatar.bot {
+    background-image: url("/bot.svg");
 }
 
 .message__container--mine + .message__container--others {
@@ -150,17 +156,63 @@
   padding: 0.5rem 1rem;
   margin: 2px 0;
   border-radius: var(--message-border-radius);
+  width: fit-content;
 }
 
 .message__container--mine .message {
   background-color: var(--blue);
   color: var(--white);
   border-bottom-right-radius: var(--message-border-radius-decreased);
+  text-align: end;
+  margin-left: auto;
 }
 
 .message__container--others .message {
   background-color: var(--white);
   box-shadow: var(--shadow-light);
+  margin-right: auto;
+}
+
+.option__container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+    padding-left: 1.5rem;
+}
+
+.option__container:last-child {
+    margin-bottom: 1.5rem
+}
+
+.option {
+    padding: 0.5rem 1rem;
+    margin: 4px 0.5rem;
+    border-radius: var(--message-border-radius);
+    background-color: var(--white);
+    color: var(--secondary);
+    box-shadow: var(--shadow-light);
+    border: 1px solid var(--secondary);
+    font-size: 1em;
+}
+
+.option:focus {
+    outline: none;
+}
+
+.option span {
+    color: var(--gray-light);
+}
+
+.option.selected {
+    background-color: var(--secondary);
+    color: var(--white);
+}
+
+.option.selected span {
+    color: var(--light-blue-transparent);
 }
 
 .input__container {

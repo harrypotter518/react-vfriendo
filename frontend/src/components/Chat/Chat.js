@@ -33,6 +33,9 @@ class Chat extends Component {
       {from: 1, contents: 'Hello!'},
       {from: 0, contents: 'Hello to you too!'},
       {from: 1, contents: 'What\'s up?'},
+      {from: 2, contents: 'Hey!'},
+      {from: 2, contents: 'What are you feeling like today?'},
+      {from: 2, options: ['Dinner', 'Entertainment', 'Shopping'], selected: "Entertainment"}
     ],
     message: '',
   }
@@ -44,10 +47,23 @@ class Chat extends Component {
     setTimeout(this.scrollChatDown, 100)
   }
 
+  whoSaidIt = (from) => {
+     if (from === 1) {
+         return 'message__container--mine'
+     } else if (from === 2) {
+         return 'message__container--others message__container--bot'
+     } else {
+         return 'message__container--others'
+     }
+  }
+
   groupedMessages = () => {
     const groupedMessages = []
     this.state.messages.forEach(message => {
-      if (!groupedMessages.length || groupedMessages[groupedMessages.length - 1].from !== message.from) {
+        if (message.options) {
+                    groupedMessages.push({from: message.from, messages: [message], option: true})
+
+        } else if (!groupedMessages.length || groupedMessages[groupedMessages.length - 1].from !== message.from) {
         groupedMessages.push({from: message.from, messages: [message]})
       } else {
         groupedMessages[groupedMessages.length - 1].messages.push(message)
@@ -69,6 +85,10 @@ class Chat extends Component {
     this.setState({
       message: e.target.value,
     })
+  }
+
+  handleOptionSelected = option => {
+      console.log(option)
   }
 
   handleSendMessage = e => {
@@ -100,8 +120,6 @@ class Chat extends Component {
             }),
             this.scrollChatDown,
           )
-
-          console.log('Bot message!', res.bot_message)
         })
     })
   }
@@ -121,7 +139,7 @@ class Chat extends Component {
                 </svg>
             </a>
             <div>
-              <div className="header__name">Some Guy</div>
+              <div className="header__name">Malcolm Function</div>
               <div className="header__status">Active now</div>
             </div>
           </div>
@@ -135,25 +153,46 @@ class Chat extends Component {
           {this.groupedMessages().map((group, index) => (
             <div
               key={index}
-              className={`message__container ${
-                group.from === 1
-                  ? 'message__container--mine'
-                  : 'message__container--others'
-                }`}
+              className={`message__container ${this.whoSaidIt(group.from)}`}
             >
-                {group.from !== 1 && (
-                    <div class="avatar"></div>
+                {group.from !== 1 && !group.option && (
+                    <div className={`avatar ${
+                        (group.from === 2 ? 'bot': '')
+                    }`}></div>
                 )}
-                <div class="message__container--inner">
-                    {group.messages.map((message, index_1) => (
-                        <div
-                            key={index_1}
-                            className="message">{message.contents}
-                        </div>
-                    ))}
+                <div className="message__container--inner">
+                    {group.messages.map((message, index_1) => {
+                        if (!message.contents && message.options) {
+                            return (
+                                <div
+                                    key={index_1}
+                                    className="option__container">
+                                    {message.options.map(option => {
+                                        return (
+                                            <button
+                                                key={option}
+                                                className={`option ${
+                                                    message.selected === option ? "selected" : ""}`}
+                                                onClick={() => this.handleOptionSelected(option)}
+                                                >{option}
+                                            </button>
+                                        )
+                                    }) }
+                                </div>
+                            )
+                        } else {
+                            return (
+                                <div
+                                    key={index_1}
+                                    className="message">{message.contents}
+                                </div>
+                            )
+                        }
+                    })}
                 </div>
             </div>
           ))}
+
         </div>
         <form className="input__container" onSubmit={this.handleSendMessage}>
           <input
