@@ -128,3 +128,7 @@ STATIC_URL = '/static/'
 
 # CORS
 CORS_ORIGIN_ALLOW_ALL = True
+
+# Read Google App credentials to environment
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.path.join(BASE_DIR, 'cloudnlp-credentials.json')
+GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY', '')
