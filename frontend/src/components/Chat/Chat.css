@@ -185,14 +185,15 @@
 }
 
 .option {
-    padding: 0.5rem 1rem;
+    padding: 0.6rem 1.2rem;
     margin: 4px 0.5rem;
     border-radius: var(--message-border-radius);
-    background-color: var(--white);
+    background-color: var(--blue-light);
     color: var(--blue);
-    box-shadow: var(--shadow-light);
-    border: 1px solid var(--blue);
-    font-size: 1em;
+    box-shadow: var(--shadow-dark);
+    border: none;
+    font-size: 0.9em;
+    font-weight: 600;
     user-select: none;
 }
 
@@ -229,7 +230,8 @@
 }
 
 .input__submit {
-  background-color: var(--light-blue);
+  background-color: var(--blue-light);
+  box-shadow: var(--shadow-dark);
   border: none;
   border-radius: 100px;
   padding: 0.75rem;
@@ -238,7 +240,7 @@
 .input__submit svg {
   height: 1rem;
   width: 1rem;
-  transform: translateX(-1px)translateY(1px);
+  transform: translateX(-1px) translateY(2px);
 }
 
 .input__submit path {
