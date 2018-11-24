@@ -35,8 +35,12 @@ class SentimentAnalysis:
             sentimentlist = list()
             magnitudelist = list()
             for mention in entity.mentions:
-                sentimentlist.append(mention.sentiment.score)
-                magnitudelist.append(mention.sentiment.magnitude)
+                s = mention.sentiment.score
+                if s is None: s = 0
+                m = mention.sentiment.magnitude
+                if m is None: m = 0
+                sentimentlist.append(s)
+                magnitudelist.append(m)
                 idea.addSentiments(sentimentlist, magnitudelist)
                 existingEntities[idea.name] = idea
         return existingEntities
@@ -69,20 +73,23 @@ class SentimentEntity:
         else:
             return 0 # neutral
 
+    def overallsent(self):
+        return self.magVal*self.scoreVal
+
     def isPositive(self):
-        if self.magVal*self.scoreVal > 0.8: # current thresholds subject to change
+        if self.overallsent() > 0.8: # current thresholds subject to change
             return True
         else:
             return False
 
     def isNegative(self):
-        if self.magVal*self.scoreVal < -0.4: # current thresholds subject to change
+        if self.overallsent() < -0.4: # current thresholds subject to change
             return True
         else:
             return False
 
     def isNeutral(self):
-        if self.magVal*self.scoreVal > -0.4 and self.magVal*self.scoreVal < 0.8: # current thresholds subject to change
+        if self.overallsent() > -0.4 and self.overallsent() < 0.8: # current thresholds subject to change
             return True
         else:
             return False

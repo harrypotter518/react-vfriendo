@@ -14,10 +14,6 @@ class chatbot():
     # of an AIML file into the Kernel.
     aimlBot.learn(os.path.dirname(os.path.abspath(__file__)) + '/botdata/*/*.aiml')
 
-    def __init__(self):
-        x = 1 #init
-
-
     def read_input(self, input):
         self.historybuffer.insert(0, input)
         if self.historybuffer.__sizeof__() == 10:
@@ -35,3 +31,19 @@ class chatbot():
 
     def aimlresponse(self, input):
         return self.aimlBot.respond(input)
+
+
+    # Returns the top 3 interests of the person
+    def returnInterests(self):
+        topthree = list()
+        for entity in self.knowledge.values():
+            if entity.isPositive() is False:
+                continue
+            if topthree.__sizeof__() < 3:
+                topthree.append(entity)
+            elif topthree[2].overallSent() < entity.overallSent():
+                topthree.insert(0, entity)
+                topthree.pop()
+        return topthree
+
+
