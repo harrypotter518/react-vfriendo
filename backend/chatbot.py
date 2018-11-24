@@ -22,18 +22,19 @@ class ChatBot:
     status = False
 
     def read_input(self, input, latitude, longitude):
+        input = input.lower()
         self.historybuffer.insert(0, input)
         if self.historybuffer.__sizeof__() == 100:
             self.historybuffer.pop()
         self.knowledge = self.sentiment.analyse_text(self.knowledge, input)
         if "@bot" in input or "@Bot" in input:
             input_list = input.split(' ')
-            keyword = input_list[1] if len(input_list) else 'on'
+            keyword = 'on' if len(input_list) == 1 else input_list[1]
 
             if keyword == 'off':
                 self.status = False
             elif keyword == 'topic':
-                return self.reply(input, 'topic')
+                return self.reply(input, 'topic', latitude, longitude)
             else:
                 self.status = True
                 return self.reply(input, "location", latitude, longitude)
@@ -77,10 +78,10 @@ class ChatBot:
                 'options': [place['name'] for place in results],
             }
         elif case == 'topic':
-            # TODO: Do
+            interests = self.returnInterests()
             return {
                 'message': 'How about one of these topics?',
-                'options': [],
+                'options': [interest.name for interest in interests],
             }
 
     def aimlresponse(self, input):
@@ -120,11 +121,11 @@ class ChatBot:
                        'EVENT', 'WORK_OF_ART', 'CONSUMER_GOOD', 'OTHER')
         topthree = list()
         for entity in self.knowledge.values():
-            if entity.isPositive() is False:
+            if entity.isNegative():
                 continue
-            if topthree.__sizeof__() < 3:
+            elif len(topthree) < 3:
                 topthree.append(entity)
-            elif topthree[2].overallSent() < entity.overallSent():
+            elif len(topthree) > 1 and topthree[2].overallsent() < entity.overallsent():
                 topthree.insert(0, entity)
                 topthree.pop()
         return topthree
