@@ -9,6 +9,7 @@
 
 - OPTIONAL: Create a virtualenv & activate it
 - `cd backend` & `pip3 install -r requirements.txt`
+- Run migrations in `backend`: `python manage.py migrate`
 - `cd frontend` & `npm install`/`yarn`
 
 ## Running the app

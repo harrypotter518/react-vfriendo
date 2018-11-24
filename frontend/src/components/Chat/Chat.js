@@ -1,35 +1,37 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 
 import './Chat.css'
+
+const API_ENDPOINT = 'http://localhost:8000/api'
 
 class Chat extends Component {
   state = {
     messages: [
-      { from: 1, contents: 'Hello!' },
-      { from: 0, contents: 'Hello to you too!' },
-      { from: 1, contents: "What's up?" },
-      { from: 1, contents: 'Hello!' },
-      { from: 0, contents: 'Hello to you too!' },
-      { from: 1, contents: "What's up?" },
-      { from: 1, contents: 'Hello!' },
-      { from: 0, contents: 'Hello to you too!' },
-      { from: 1, contents: "What's up?" },
-      { from: 1, contents: 'Hello!' },
-      { from: 0, contents: 'Hello to you too!' },
-      { from: 1, contents: "What's up?" },
-      { from: 1, contents: 'Hello!' },
-      { from: 0, contents: 'Hello to you too!' },
-      { from: 1, contents: "What's up?" },
-      { from: 1, contents: 'Hello!' },
-      { from: 0, contents: 'Hello to you too!' },
-      { from: 0, contents: 'Hello to you too!' },
-      { from: 1, contents: "What's up?" },
-      { from: 1, contents: 'Hello!' },
-      { from: 0, contents: 'Hello to you too!' },
-      { from: 1, contents: "What's up?" },
-      { from: 1, contents: 'Hello!' },
-      { from: 0, contents: 'Hello to you too!' },
-      { from: 1, contents: "What's up?" },
+      {from: 1, contents: 'Hello!'},
+      {from: 0, contents: 'Hello to you too!'},
+      {from: 1, contents: 'What\'s up?'},
+      {from: 1, contents: 'Hello!'},
+      {from: 0, contents: 'Hello to you too!'},
+      {from: 1, contents: 'What\'s up?'},
+      {from: 1, contents: 'Hello!'},
+      {from: 0, contents: 'Hello to you too!'},
+      {from: 1, contents: 'What\'s up?'},
+      {from: 1, contents: 'Hello!'},
+      {from: 0, contents: 'Hello to you too!'},
+      {from: 1, contents: 'What\'s up?'},
+      {from: 1, contents: 'Hello!'},
+      {from: 0, contents: 'Hello to you too!'},
+      {from: 1, contents: 'What\'s up?'},
+      {from: 1, contents: 'Hello!'},
+      {from: 0, contents: 'Hello to you too!'},
+      {from: 0, contents: 'Hello to you too!'},
+      {from: 1, contents: 'What\'s up?'},
+      {from: 1, contents: 'Hello!'},
+      {from: 0, contents: 'Hello to you too!'},
+      {from: 1, contents: 'What\'s up?'},
+      {from: 1, contents: 'Hello!'},
+      {from: 0, contents: 'Hello to you too!'},
+      {from: 1, contents: 'What\'s up?'},
     ],
     message: '',
   }
@@ -41,8 +43,21 @@ class Chat extends Component {
     setTimeout(this.scrollChatDown, 100)
   }
 
+  groupedMessages = () => {
+    const groupedMessages = []
+    this.state.messages.forEach(message => {
+      if (!groupedMessages.length || groupedMessages[groupedMessages.length - 1].from !== message.from) {
+        groupedMessages.push({from: message.from, messages: [message]})
+      } else {
+        groupedMessages[groupedMessages.length - 1].messages.push(message)
+      }
+    })
+
+    return groupedMessages
+  }
+
   scrollChatDown = () => {
-    const { chatContent: chat } = this
+    const {chatContent: chat} = this
 
     if (chat) {
       chat.scrollTop = chat.scrollHeight - chat.clientHeight
@@ -57,17 +72,33 @@ class Chat extends Component {
 
   handleSendMessage = e => {
     e.preventDefault()
-    this.setState(
-      state => ({
-        messages: [...state.messages, { from: 1, contents: state.message }],
-        message: '',
-      }),
-      this.scrollChatDown,
-    )
+
+    const body = JSON.stringify({
+      contents: this.state.message,
+    })
+
+    fetch(`${API_ENDPOINT}/messaging/messages/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body,
+    })
+      .then(res => res.json())
+      .then(res => {
+        this.setState(
+          state => ({
+            messages: [...state.messages, {from: 1, contents: res.contents}],
+            message: '',
+          }),
+          this.scrollChatDown,
+        )
+      })
   }
 
   render() {
-    const { messages, message } = this.state
+    const {messages, message} = this.state
+    console.log(this.groupedMessages())
 
     return (
       <div className="chat__container">
@@ -92,7 +123,7 @@ class Chat extends Component {
                 message.from === 1
                   ? 'message__container--mine'
                   : 'message__container--others'
-              }`}
+                }`}
             >
               <div className="message">{message.contents}</div>
             </div>
