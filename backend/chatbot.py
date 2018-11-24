@@ -1,9 +1,17 @@
+import os
+
 from sentiment_analysis import SentimentAnalysis
 import aiml
 
 class chatbot():
     sentiment = SentimentAnalysis()
     knowledge = list()
+    # The Kernel object is the public interface to
+    # the AIML interpreter.
+    aimlBot = aiml.Kernel()
+    # Use the 'learn' method to load the contents
+    # of an AIML file into the Kernel.
+    aimlBot.learn(os.path.dirname(os.path.abspath(__file__)) + '/botdata/*/*.aiml')
 
     def __init__(self):
         x = 1 #init
@@ -21,26 +29,10 @@ class chatbot():
     # TODO  actual bot architecture
 
 
-    def aimlresponse(self):
-
-        # The Kernel object is the public interface to
-        # the AIML interpreter.
-        k = aiml.Kernel()
-
-        # Use the 'learn' method to load the contents
-        # of an AIML file into the Kernel.
-        k.learn("std-startup.xml")
-
-        # Use the 'respond' method to compute the response
-        # to a user's input string.  respond() returns
-        # the interpreter's response, which in this case
-        # we ignore.
-        k.respond("What is botname")
-
-        # Loop forever, reading user input from the command
-        # line and printing responses.
-        print(k.respond("fish"))
+    def aimlresponse(self, input):
+        return self.aimlBot.respond(input)
 
 
 bot = chatbot()
-bot.aimlresponse()
+print(bot.aimlresponse("I am amazing"))
+print(bot.aimlresponse("What do you like to do in your free time?"))
