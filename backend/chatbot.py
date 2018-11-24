@@ -17,6 +17,7 @@ class ChatBot:
     # Use the 'learn' method to load the contents
     # of an AIML file into the Kernel.
     aimlBot.learn(os.path.dirname(os.path.abspath(__file__)) + '/botdata/*/*.aiml')
+    status = False
 
     def read_input(self, input, latitude, longitude):
         self.historybuffer.insert(0, input)
@@ -24,8 +25,14 @@ class ChatBot:
             self.historybuffer.pop()
         self.knowledge = self.sentiment.analyse_text(self.knowledge, input)
         if "@bot" or "@Bot" in input:
-            return self.reply(input, "location")
-        return self.reply(input, "aiml")
+            if "@bot-off" in input:
+                self.status = False
+            else:
+                self.status = True
+                return self.reply(input, "location")
+        if self.status is True:
+            return self.reply(input, "aiml")
+        return None
 
     def reply(self, message, case):
         if case == "aiml":
