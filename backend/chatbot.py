@@ -3,7 +3,7 @@ import os
 from sentiment_analysis import SentimentAnalysis
 import aiml
 import os
-from services.google_places import search_places
+from services.google_places import search_places, PlaceType
 
 from google.cloud import language
 
@@ -23,7 +23,7 @@ class ChatBot:
 
     def read_input(self, input, latitude, longitude):
         self.historybuffer.insert(0, input)
-        if self.historybuffer.__sizeof__() == 10:
+        if self.historybuffer.__sizeof__() == 100:
             self.historybuffer.pop()
         self.knowledge = self.sentiment.analyse_text(self.knowledge, input)
         if "@bot" in input or "@Bot" in input:
@@ -38,18 +38,37 @@ class ChatBot:
 
     def reply(self, message, case, latitude, longitude):
         if case == "aiml":
+            # group = self.classify(self.historytext())
             return {
                 'message': self.aimlresponse(message),
             }
         elif case == "location":
-            if len(self.historytext) < 5:
+            if len(self.historytext().split()) < 20:
                 return {
-                    'message': "I am not sure.",
+                    'message': 'I am not sure about where you should go. Try talking more.',
                 }
+
             group = self.classify(self.historytext())
-            results = search_places(latitude, longitude, 1500, group[0])
+
+            if len(group) == 0:
+                return {
+                    'message': 'I am not sure about where you should go. Try talking more.',
+                }
+
+            best_match = group[0]
+            place_type = None
+            query = ''
+            if 'Restaurants' in best_match.name:
+                place_type = PlaceType.restaurant
+                category_split = best_match.name.strip('/').split('/')
+                if len(category_split) > 2:
+                    query = category_split[2]  # Fast Food or Pizzeria
+
+            results = search_places(latitude, longitude, place_type=place_type, keyword=query)
+
             return {
-                'message': "Results",
+                'message': 'How about one of these?',
+                'options': [place['name'] for place in results],
             }
 
     def aimlresponse(self, input):
@@ -70,7 +89,7 @@ class ChatBot:
             content=text,
             type=language.enums.Document.Type.PLAIN_TEXT)
         response = language_client.classify_text(document)
-        categories = response.categories, verbose=True
+        categories = response.categories
 
         result = list()
 

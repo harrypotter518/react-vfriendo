@@ -97,7 +97,7 @@ class PlaceType(Enum):
     zoo = 'zoo'
 
 
-def search_places(latitude, longitude, radius=1500, place_type=PlaceType.restaurant):
+def search_places(latitude, longitude, radius=1500, place_type=PlaceType.restaurant, keyword=''):
     """ Search for places with the given parameters.
     """
     api_key = settings.GOOGLE_API_KEY
@@ -110,6 +110,7 @@ def search_places(latitude, longitude, radius=1500, place_type=PlaceType.restaur
         'location': location,
         'radius': radius,
         'type': place_type.value,
+        'keyword': keyword,
     })
 
     suggestions = response.json()['results']

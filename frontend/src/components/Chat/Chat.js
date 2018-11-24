@@ -4,43 +4,65 @@ import './Chat.css'
 
 const API_ENDPOINT = 'http://localhost:8000/api'
 
+const OTHER_RESPONSES = [
+  {from: 0, contents: 'Sup?'},
+  null,
+  {from: 0, contents: 'Have any plans for tonight?'},
+  {from: 0, contents: 'Yeah I could go for a pizza or smth'},
+  null,
+  {from: 0, contents: 'What kind of pizza would you like?'},
+  {from: 0, contents: 'Yeah, that was delicious, do we have any pizzerias here that server that?'},
+  {from: 0, contents: 'ask your bot friend'},
+
+  // {from: 0, contents: 'Hello to you too!'},
+  // {from: 0, contents: 'What\'s up?'},
+  // {from: 0, contents: 'Hello!'},
+  // {from: 0, contents: 'Hello to you too!'},
+  // {from: 0, contents: 'What\'s up?'},
+  // {from: 0, contents: 'Hello!'},
+  // {from: 0, contents: 'Hello to you too!'},
+  // {from: 0, contents: 'What\'s up?'},
+]
+
 class Chat extends Component {
   state = {
     messages: [
-      {from: 1, contents: 'Hello!'},
-      {from: 0, contents: 'Hello to you too!'},
-      {from: 1, contents: 'What\'s up?'},
-      {from: 1, contents: 'Hello!'},
-      {from: 0, contents: 'Hello to you too!'},
-      {from: 1, contents: 'What\'s up?'},
-      {from: 1, contents: 'Hello!'},
-      {from: 0, contents: 'Hello to you too!'},
-      {from: 1, contents: 'What\'s up?'},
-      {from: 1, contents: 'Hello!'},
-      {from: 1, contents: 'Hello again!'},
-      {from: 0, contents: 'Hello to you too!'},
-      {from: 2, contents: 'What are you feeling like today?'},
-      {from: 2, options: ['Dinner', 'Entertainment', 'Shopping'], selected: "Entertainment"},
-      {from: 1, contents: 'What\'s up?'},
-      {from: 1, contents: 'Hello!'},
-      {from: 0, contents: 'Hello to you too!'},
-      {from: 1, contents: 'What\'s up?'},
-      {from: 1, contents: 'Hello!'},
-      {from: 0, contents: 'Hello to you too!'},
-      {from: 0, contents: 'Hello to you too again!'},
-      {from: 1, contents: 'What\'s up?'},
-      {from: 1, contents: 'Hello!'},
-      {from: 0, contents: 'Hello to you too!'},
-      {from: 1, contents: 'What\'s up?'},
-      {from: 1, contents: 'Hello!'},
-      {from: 0, contents: 'Hello to you too!'},
-      {from: 1, contents: 'What\'s up?'},
-      {from: 2, contents: 'Hey!'},
-      {from: 2, contents: 'What are you feeling like today?'},
-      {from: 2, options: ['Dinner', 'Entertainment', 'Shopping'], selected: "Entertainment"}
+      OTHER_RESPONSES[0],
+      // {from: 0, contents: 'Sup?'},
+      // {from: 0, contents: 'Hello to you too!'},
+      // {from: 1, contents: 'What\'s up?'},
+      // {from: 1, contents: 'Hello!'},
+      // {from: 0, contents: 'Hello to you too!'},
+      // {from: 1, contents: 'What\'s up?'},
+      // {from: 1, contents: 'Hello!'},
+      // {from: 0, contents: 'Hello to you too!'},
+      // {from: 1, contents: 'What\'s up?'},
+      // {from: 1, contents: 'Hello!'},
+      // {from: 1, contents: 'Hello again!'},
+      // {from: 0, contents: 'Hello to you too!'},
+      // {from: 2, contents: 'What are you feeling like today?'},
+      // {from: 2, options: ['Dinner', 'Entertainment', 'Shopping'], selected: "Entertainment"},
+      // {from: 1, contents: 'What\'s up?'},
+      // {from: 1, contents: 'Hello!'},
+      // {from: 0, contents: 'Hello to you too!'},
+      // {from: 1, contents: 'What\'s up?'},
+      // {from: 1, contents: 'Hello!'},
+      // {from: 0, contents: 'Hello to you too!'},
+      // {from: 0, contents: 'Hello to you too again!'},
+      // {from: 1, contents: 'What\'s up?'},
+      // {from: 1, contents: 'Hello!'},
+      // {from: 0, contents: 'Hello to you too!'},
+      // {from: 1, contents: 'What\'s up?'},
+      // {from: 1, contents: 'Hello!'},
+      // {from: 0, contents: 'Hello to you too!'},
+      // {from: 1, contents: 'What\'s up?'},
+      // {from: 2, contents: 'Hey!'},
+      // {from: 2, contents: 'What are you feeling like today?'},
+      // {from: 2, options: ['Dinner', 'Entertainment', 'Shopping'], selected: "Entertainment"}
     ],
     message: '',
     isSubmitting: false,
+    currentOtherIndex: 1,
   }
 
   chatContent = null
@@ -164,6 +186,49 @@ class Chat extends Component {
             },
             this.scrollChatDown,
           )
+
+          setTimeout(() => {
+            const index = this.state.currentOtherIndex
+
+            this.setState({
+              currentOtherIndex: index + 1,
+            })
+
+            this.setState(state => {
+              if (OTHER_RESPONSES.length < index) {
+                return {}
+              }
+
+              const message = OTHER_RESPONSES[index]
+
+              if (!message) {
+                return {}
+              }
+
+              fetch(`${API_ENDPOINT}/messaging/messages/`, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  contents: message.contents,
+                  user_id: 1,
+                  longitude,
+                  latitude,
+                }),
+              })
+
+              return {
+                messages: [...state.messages, message],
+              }
+            })
+          }, 1000)
+        })
+        .catch(err => {
+          console.error(err)
+          this.setState({
+            isSubmitting: false,
+          })
         })
     })
   }
