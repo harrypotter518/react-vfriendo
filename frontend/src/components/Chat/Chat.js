@@ -190,7 +190,7 @@ class Chat extends Component {
               return {
                 messages: [...state.messages, message],
               }
-            })
+            }, this.scrollChatDown)
           }, 1000)
         })
         .catch(err => {
