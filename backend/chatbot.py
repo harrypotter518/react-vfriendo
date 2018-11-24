@@ -90,4 +90,4 @@ class ChatBot:
         return topthree
 
 
-
+bot = ChatBot()

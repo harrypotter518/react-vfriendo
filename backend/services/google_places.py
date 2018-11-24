@@ -4,7 +4,7 @@ import requests
 from django.conf import settings
 
 
-class PlaceTypes(Enum):
+class PlaceType(Enum):
     accounting = 'accounting'
     airport = 'airport'
     amusement_park = 'amusement_park'
@@ -97,7 +97,7 @@ class PlaceTypes(Enum):
     zoo = 'zoo'
 
 
-def search_places(latitude, longitude, radius=1500, place_type=PlaceTypes.restaurant):
+def search_places(latitude, longitude, radius=1500, place_type=PlaceType.restaurant):
     """ Search for places with the given parameters.
     """
     api_key = settings.GOOGLE_API_KEY
