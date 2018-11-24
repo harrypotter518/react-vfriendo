@@ -87,6 +87,7 @@
 
 .message__container--others .message__container--inner {
     margin-left: 0.5rem;
+    flex: 1;
 }
 
 .avatar {
@@ -104,11 +105,11 @@
 }
 
 .message__container--mine + .message__container--others {
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 
 .message__container--others + .message__container--mine {
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 
 /* first message in my series */
@@ -158,13 +159,14 @@
   margin: 2px 0;
   border-radius: var(--message-border-radius);
   width: fit-content;
+  max-width: 15rem;
 }
 
 .message__container--mine .message {
   background-color: var(--blue);
   color: var(--white);
   border-bottom-right-radius: var(--message-border-radius-decreased);
-  text-align: end;
+  text-align: start;
   margin-left: auto;
 }
 
