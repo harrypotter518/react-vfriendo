@@ -89,11 +89,13 @@ class Chat extends Component {
       .then(res => {
         this.setState(
           state => ({
-            messages: [...state.messages, {from: 1, contents: res.contents}],
+            messages: [...state.messages, {from: 1, contents: res.message.contents}],
             message: '',
           }),
           this.scrollChatDown,
         )
+
+        console.log('Bot message!', res.bot_message)
       })
   }
 
