@@ -5,7 +5,8 @@ import aiml
 
 class chatbot():
     sentiment = SentimentAnalysis()
-    knowledge = list()
+    knowledge = {}
+    historybuffer = list() # contains the 10 most recent messages
     # The Kernel object is the public interface to
     # the AIML interpreter.
     aimlBot = aiml.Kernel()
@@ -18,13 +19,16 @@ class chatbot():
 
 
     def read_input(self, input):
-        self.knowledge.append
-        self.sentiment.analyse_text(input)
+        self.historybuffer.insert(0, input)
+        if self.historybuffer.__sizeof__() == 10:
+            self.historybuffer.pop()
+        self.knowledge = self.sentiment.analyse_text(self.knowledge, input)
         # TODO returns either the response or some null state which maeans no response
 
+    def reply(self, message, case):
+        if case=="aiml":
+            return self.aimlresponse(message)
 
-    def reply(self):
-        return "This is a response"
 
     # TODO  actual bot architecture
 
