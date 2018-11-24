@@ -90,8 +90,8 @@
 }
 
 .avatar {
-    height: 32px;
-    width: 32px;
+    height: 40px;
+    width: 40px;
     border-radius: 100px;
     background-image: url("/avatar.png");
     background-size: contain;
@@ -181,7 +181,7 @@
     align-items: center;
     margin-top: 1rem;
     flex-wrap: wrap;
-    padding-left: 1.5rem;
+    padding-left: 2rem;
 }
 
 .option {
