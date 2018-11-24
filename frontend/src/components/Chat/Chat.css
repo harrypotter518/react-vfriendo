@@ -7,10 +7,14 @@
 }
 
 .chat__header {
+  padding-bottom: 1.5rem;
 }
 
 .chat__content {
   flex: 1;
+  overflow-y: scroll;
+  margin: 0 -5px;
+  padding: 0 5px;
 }
 
 .header__container {
@@ -35,10 +39,19 @@
 
 .message__container {
   display: flex;
+  margin-bottom: 4px;
 }
 
 .message__container--mine {
   justify-content: flex-end;
+}
+
+.message__container--mine + .message__container--others {
+  margin-top: 2rem;
+}
+
+.message__container--others + .message__container--mine {
+  margin-top: 2rem;
 }
 
 .message {
@@ -59,6 +72,7 @@
 .input__container {
   display: flex;
   background-color: var(--white);
+  margin-top: 1.5rem;
   padding: 4px 4px 4px 24px;
   border-radius: 100px;
   box-shadow: var(--shadow-light);

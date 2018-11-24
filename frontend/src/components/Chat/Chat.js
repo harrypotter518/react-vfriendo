@@ -8,11 +8,66 @@ class Chat extends Component {
       { from: 1, contents: 'Hello!' },
       { from: 0, contents: 'Hello to you too!' },
       { from: 1, contents: "What's up?" },
+      { from: 1, contents: 'Hello!' },
+      { from: 0, contents: 'Hello to you too!' },
+      { from: 1, contents: "What's up?" },
+      { from: 1, contents: 'Hello!' },
+      { from: 0, contents: 'Hello to you too!' },
+      { from: 1, contents: "What's up?" },
+      { from: 1, contents: 'Hello!' },
+      { from: 0, contents: 'Hello to you too!' },
+      { from: 1, contents: "What's up?" },
+      { from: 1, contents: 'Hello!' },
+      { from: 0, contents: 'Hello to you too!' },
+      { from: 1, contents: "What's up?" },
+      { from: 1, contents: 'Hello!' },
+      { from: 0, contents: 'Hello to you too!' },
+      { from: 0, contents: 'Hello to you too!' },
+      { from: 1, contents: "What's up?" },
+      { from: 1, contents: 'Hello!' },
+      { from: 0, contents: 'Hello to you too!' },
+      { from: 1, contents: "What's up?" },
+      { from: 1, contents: 'Hello!' },
+      { from: 0, contents: 'Hello to you too!' },
+      { from: 1, contents: "What's up?" },
     ],
+    message: '',
+  }
+
+  chatContent = null
+
+  componentDidMount() {
+    setTimeout(this.scrollChatDown, 0)
+    setTimeout(this.scrollChatDown, 100)
+  }
+
+  scrollChatDown = () => {
+    const { chatContent: chat } = this
+
+    if (chat) {
+      chat.scrollTop = chat.scrollHeight - chat.clientHeight
+    }
+  }
+
+  handleMessageChanged = e => {
+    this.setState({
+      message: e.target.value,
+    })
+  }
+
+  handleSendMessage = e => {
+    e.preventDefault()
+    this.setState(
+      state => ({
+        messages: [...state.messages, { from: 1, contents: state.message }],
+        message: '',
+      }),
+      this.scrollChatDown,
+    )
   }
 
   render() {
-    const { messages } = this.state
+    const { messages, message } = this.state
 
     return (
       <div className="chat__container">
@@ -24,7 +79,12 @@ class Chat extends Component {
             </div>
           </div>
         </div>
-        <div className="chat__content">
+        <div
+          className="chat__content"
+          ref={ref => {
+            this.chatContent = ref
+          }}
+        >
           {messages.map((message, index) => (
             <div
               key={index}
@@ -38,12 +98,14 @@ class Chat extends Component {
             </div>
           ))}
         </div>
-        <form className="input__container">
+        <form className="input__container" onSubmit={this.handleSendMessage}>
           <input
             className="input__input"
             type="text"
             placeholder="Type your message..."
             name="message"
+            value={message}
+            onChange={this.handleMessageChanged}
           />
           <button type="submit" className="input__submit">
             <svg
