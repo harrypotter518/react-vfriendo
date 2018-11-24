@@ -1,7 +1,6 @@
 from rest_framework import viewsets
 from rest_framework.response import Response
 
-from services.google_places import search_places
 from .models import Message
 from .serializers import MessagesSerializer
 
@@ -20,8 +19,6 @@ class MessagesViewSet(viewsets.ModelViewSet):
 
         # TODO: Have a learn here
         # bot_response = bot().read_input(serializer.data['contents'], latitude, longitude)
-
-        search_places(latitude, longitude)
 
         bot_response = {
             'message': 'Hi!',
