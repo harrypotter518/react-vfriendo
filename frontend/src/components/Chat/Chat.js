@@ -75,6 +75,7 @@ class Chat extends Component {
 
     const body = JSON.stringify({
       contents: this.state.message,
+      user_id: 1,
     })
 
     fetch(`${API_ENDPOINT}/messaging/messages/`, {
