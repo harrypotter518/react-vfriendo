@@ -1,7 +1,6 @@
 from rest_framework import viewsets
 from rest_framework.response import Response
 
-from chatbot import bot
 from .models import Message
 from .serializers import MessagesSerializer
 
@@ -19,12 +18,12 @@ class MessagesViewSet(viewsets.ModelViewSet):
         longitude = request.data['longitude']
 
         # TODO: Have a learn here
-        bot_response = bot.read_input(serializer.data['contents'], latitude, longitude)
+        # bot_response = bot().read_input(serializer.data['contents'], latitude, longitude)
 
-        # bot_response = {
-        #     'message': 'Hi!',
-        #     'choice': ['Entertainment', 'Whatever'],
-        # }
+        bot_response = {
+            'message': 'Hi!',
+            'budget_choices': True,
+        }
 
         return Response({
             'bot_response': bot_response,
