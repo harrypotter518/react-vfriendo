@@ -23,7 +23,7 @@ class ChatBot:
 
     def read_input(self, input, latitude, longitude):
         self.historybuffer.insert(0, input)
-        if self.historybuffer.__sizeof__() == 10:
+        if self.historybuffer.__sizeof__() == 100:
             self.historybuffer.pop()
         self.knowledge = self.sentiment.analyse_text(self.knowledge, input)
         if "@bot" in input or "@Bot" in input:
