@@ -19,6 +19,8 @@ class Chat extends Component {
       {from: 1, contents: 'Hello!'},
       {from: 1, contents: 'Hello again!'},
       {from: 0, contents: 'Hello to you too!'},
+      {from: 2, contents: 'What are you feeling like today?'},
+      {from: 2, options: ['Dinner', 'Entertainment', 'Shopping'], selected: "Entertainment"},
       {from: 1, contents: 'What\'s up?'},
       {from: 1, contents: 'Hello!'},
       {from: 0, contents: 'Hello to you too!'},
