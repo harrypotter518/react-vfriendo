@@ -97,16 +97,20 @@ class PlaceTypes(Enum):
     zoo = 'zoo'
 
 
-def search_places(latitude, longitude):
+def search_places(latitude, longitude, radius=1500, place_type=PlaceTypes.restaurant):
+    """ Search for places with the given parameters.
+    """
     api_key = settings.GOOGLE_API_KEY
     location = f'{latitude},{longitude}'
-    radius = 1500  # Meters
-    place_type = PlaceTypes.restaurant  # https://developers.google.com/places/web-service/supported_types
     # More parameters https://developers.google.com/places/web-service/search
 
-    # TODO: Get some suggestions!
-    url = f'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={location}&radius={radius}&type={place_type}&key={api_key}'
-    response = requests.get(url)
+    url = f'https://maps.googleapis.com/maps/api/place/nearbysearch/json'
+    response = requests.get(url, params={
+        'key': api_key,
+        'location': location,
+        'radius': radius,
+        'type': place_type,
+    })
 
     suggestions = response.json()['results']
 
