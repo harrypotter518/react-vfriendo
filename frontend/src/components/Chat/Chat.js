@@ -61,14 +61,15 @@ class Chat extends Component {
 
   groupedMessages = () => {
     const groupedMessages = []
-    this.state.messages.forEach(message => {
+    this.state.messages.forEach((message, index) => {
+        const newMessage = {...message, index}
         if (message.options) {
-                    groupedMessages.push({from: message.from, messages: [message], option: true})
+            groupedMessages.push({from: message.from, messages: [newMessage], option: true})
 
         } else if (!groupedMessages.length || groupedMessages[groupedMessages.length - 1].from !== message.from) {
-        groupedMessages.push({from: message.from, messages: [message]})
+        groupedMessages.push({from: message.from, messages: [newMessage]})
       } else {
-        groupedMessages[groupedMessages.length - 1].messages.push(message)
+        groupedMessages[groupedMessages.length - 1].messages.push(newMessage)
       }
     })
 
@@ -89,8 +90,14 @@ class Chat extends Component {
     })
   }
 
-  handleOptionSelected = option => {
-      console.log(option)
+  handleOptionSelected = (message, option) => {
+      this.setState({
+          messages: [
+              ...this.state.messages.slice(0, message.index),
+              {...this.state.messages[message.index], selected: option},
+              ...this.state.messages.slice(message.index + 1)
+          ]
+      })
   }
 
   handleSendMessage = e => {
@@ -175,7 +182,7 @@ class Chat extends Component {
                                                 key={option}
                                                 className={`option ${
                                                     message.selected === option ? "selected" : ""}`}
-                                                onClick={() => this.handleOptionSelected(option)}
+                                                onClick={() => this.handleOptionSelected(message,option)}
                                                 >{option}
                                             </button>
                                         )
