@@ -43,6 +43,19 @@ class Chat extends Component {
     setTimeout(this.scrollChatDown, 100)
   }
 
+  groupedMessages = () => {
+    const groupedMessages = []
+    this.state.messages.forEach(message => {
+      if (!groupedMessages.length || groupedMessages[groupedMessages.length - 1].from !== message.from) {
+        groupedMessages.push({from: message.from, messages: [message]})
+      } else {
+        groupedMessages[groupedMessages.length - 1].messages.push(message)
+      }
+    })
+
+    return groupedMessages
+  }
+
   scrollChatDown = () => {
     const {chatContent: chat} = this
 
@@ -85,6 +98,7 @@ class Chat extends Component {
 
   render() {
     const {messages, message} = this.state
+    console.log(this.groupedMessages())
 
     return (
       <div className="chat__container">
