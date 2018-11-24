@@ -123,10 +123,29 @@ class Chat extends Component {
         .then(res => res.json())
         .then(res => {
           this.setState(
-            state => ({
-              messages: [...state.messages, {from: 1, contents: res.message.contents}],
-              message: '',
-            }),
+            state => {
+              const newMessages = [...state.messages, {from: 1, contents: res.message.contents}]
+
+              if (res.bot_response) {
+                newMessages.push({
+                  from: 2,
+                  contents: res.bot_response.message,
+                })
+
+                if (res.bot_response.options) {
+                  newMessages.push({
+                    from: 2,
+                    options: res.bot_response.options,
+                    selected: null,
+                  })
+                }
+              }
+
+              return {
+                messages: newMessages,
+                message: '',
+              }
+            },
             this.scrollChatDown,
           )
         })
