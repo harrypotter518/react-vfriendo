@@ -101,7 +101,7 @@ class Chat extends Component {
             this.scrollChatDown,
           )
 
-          console.log('Bot message!', res.bot_message)
+          console.log('Bot message!', res.bot_response)
         })
     })
   }
