@@ -27,7 +27,12 @@ const OTHER_RESPONSES = [
 class Chat extends Component {
   state = {
     messages: [
-      OTHER_RESPONSES[0],
+      {from: 0, contents: 'Sup?'},
+      {from: 0, contents: 'Have any plans for tonight?'},
+      {from: 0, contents: 'Yeah I could go for a pizza or smth'},
+      {from: 0, contents: 'What kind of pizza would you like?'},
+      {from: 0, contents: 'Yeah, that was delicious, do we have any pizzerias here that server that?'},
+      {from: 0, contents: 'ask your bot friend'},
       // {from: 0, contents: 'Sup?'},
       // {from: 0, contents: 'Hello to you too!'},
       // {from: 1, contents: 'What\'s up?'},
