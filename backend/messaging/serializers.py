@@ -6,5 +6,5 @@ from .models import Message
 class MessagesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Message
-        fields = ('id', 'contents', 'created_at')
+        fields = ('id', 'contents', 'user_id', 'created_at')
         read_only_fields = ('created_at',)
