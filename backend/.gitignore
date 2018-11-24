@@ -2,4 +2,5 @@ db.sqlite3
 .python-version
 *.pyc
 __pycache__/
-cloudapi-credentials.json
+.env
+cloudnlp-credentials.json

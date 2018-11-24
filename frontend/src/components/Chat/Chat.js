@@ -101,7 +101,7 @@ class Chat extends Component {
             this.scrollChatDown,
           )
 
-          console.log('Bot message!', res.bot_message)
+          console.log('Bot message!', res.bot_response)
         })
     })
   }
@@ -142,9 +142,9 @@ class Chat extends Component {
                 }`}
             >
                 {group.from !== 1 && (
-                    <div class="avatar"></div>
+                    <div className="avatar" />
                 )}
-                <div class="message__container--inner">
+                <div className="message__container--inner">
                     {group.messages.map((message, index_1) => (
                         <div
                             key={index_1}
