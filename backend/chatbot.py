@@ -81,7 +81,10 @@ class ChatBot:
             interests = self.returnInterests()
             return {
                 'message': 'How about one of these topics?',
-                'options': [interest.name for interest in interests],
+                'options': [{
+                    'label': interest.name,
+                    'link': f'https://www.google.com/maps/dir/?api=1&destination={interest.geometry.location.lat},{interest.geometry.location.lat}',
+                } for interest in interests],
             }
 
     def aimlresponse(self, input):
