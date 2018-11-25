@@ -250,16 +250,30 @@ class Chat extends Component {
                                     key={index_1}
                                     className="option__container">
                                     {message.options.map(option => {
+                                      if (typeof option === 'string') {
                                         return (
-                                            <a
-                                                key={option.label}
-                                                href={option.link ? option.link : ''}
-                                                className={`option ${
-                                                    message.selected === option.label ? "selected" : ""}`}
-                                                onClick={() => this.handleOptionSelected(message,option)}
-                                                >{option.label}
-                                            </a>
+                                          <button
+                                            key={option}
+                                            className={`option ${
+                                              message.selected === option ? "selected" : ""}`}
+                                            onClick={() => this.handleOptionSelected(message, option)}
+                                          >
+                                            {option}
+                                          </button>
                                         )
+                                      } else {
+                                        return (
+                                          <a
+                                            key={option.label}
+                                            href={option.link ? option.link : ''}
+                                            className={`option ${
+                                              message.selected === option.label ? "selected" : ""}`}
+                                            onClick={() => this.handleOptionSelected(message,option)}
+                                            target="_blank"
+                                          >{option.label}
+                                          </a>
+                                        )
+                                      }
                                     }) }
                                 </div>
                             )
