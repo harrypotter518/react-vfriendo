@@ -5,10 +5,7 @@ import './Chat.css'
 const API_ENDPOINT = 'http://localhost:8000/api'
 
 const OTHER_RESPONSES = [
-  {from: 2, contents: 'Here are some options for food nearby!'},
-  {from: 2, options: [{label: 'Pizza place', link: 'https://google.com'}, {label: 'Burger place', link: 'https://google.com'}], selected: "Pizza place"},
-  {from: 2, contents: "Have a look here:"},
-  {from: 2, options: [{label: 'DINNER', link: null}, {label: 'Party', link: null}], selected: null},
+  {from: 0, contents: 'Sup'},
   null,
   {from: 0, contents: 'nothing much, have any plans for tonight?'},
   {from: 0, contents: 'Yeah I could go for a pizza or smth'},
@@ -22,9 +19,6 @@ class Chat extends Component {
   state = {
     messages: [
       OTHER_RESPONSES[0],
-      OTHER_RESPONSES[1],
-      OTHER_RESPONSES[2],
-      OTHER_RESPONSES[3],
       // {from: 2, options: ['Dinner', 'Entertainment', 'Shopping'], selected: "Entertainment"}
     ],
     message: '',

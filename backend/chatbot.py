@@ -75,16 +75,16 @@ class ChatBot:
 
             return {
                 'message': 'How about one of these?',
-                'options': [place['name'] for place in results],
+                'options': [{
+                    'label': place['name'],
+                    'link': f"https://www.google.com/maps/dir/?api=1&destination={place['geometry']['location']['lat']},{place['geometry']['location']['lng']}",
+                } for place in results],
             }
         elif case == 'topic':
             interests = self.returnInterests()
             return {
                 'message': 'How about one of these topics?',
-                'options': [{
-                    'label': interest.name,
-                    'link': f'https://www.google.com/maps/dir/?api=1&destination={interest.geometry.location.lat},{interest.geometry.location.lat}',
-                } for interest in interests],
+                'options': [interest.name for interest in interests],
             }
 
     def aimlresponse(self, input):
