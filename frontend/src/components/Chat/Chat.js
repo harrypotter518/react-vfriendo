@@ -5,7 +5,10 @@ import './Chat.css'
 const API_ENDPOINT = 'http://localhost:8000/api'
 
 const OTHER_RESPONSES = [
-  {from: 0, contents: 'Sup?'},
+  {from: 2, contents: 'Here are some options for food nearby!'},
+  {from: 2, options: [{label: 'Pizza place', link: 'https://google.com'}, {label: 'Burger place', link: 'https://google.com'}], selected: "Pizza place"},
+  {from: 2, contents: "Have a look here:"},
+  {from: 2, options: [{label: 'DINNER', link: null}, {label: 'Party', link: null}], selected: null},
   null,
   {from: 0, contents: 'nothing much, have any plans for tonight?'},
   {from: 0, contents: 'Yeah I could go for a pizza or smth'},
@@ -19,6 +22,9 @@ class Chat extends Component {
   state = {
     messages: [
       OTHER_RESPONSES[0],
+      OTHER_RESPONSES[1],
+      OTHER_RESPONSES[2],
+      OTHER_RESPONSES[3],
       // {from: 2, options: ['Dinner', 'Entertainment', 'Shopping'], selected: "Entertainment"}
     ],
     message: '',
@@ -50,7 +56,11 @@ class Chat extends Component {
         if (message.options) {
             groupedMessages.push({from: message.from, messages: [newMessage], option: true})
 
-        } else if (!groupedMessages.length || groupedMessages[groupedMessages.length - 1].from !== message.from) {
+        } else if (
+            !groupedMessages.length ||
+            groupedMessages[groupedMessages.length - 1].from !== message.from ||
+            groupedMessages[groupedMessages.length - 1].messages.find(message => !!message.options)
+        ) {
         groupedMessages.push({from: message.from, messages: [newMessage]})
       } else {
         groupedMessages[groupedMessages.length - 1].messages.push(newMessage)
@@ -247,13 +257,14 @@ class Chat extends Component {
                                     className="option__container">
                                     {message.options.map(option => {
                                         return (
-                                            <button
-                                                key={option}
+                                            <a
+                                                key={option.label}
+                                                href={option.link ? option.link : ''}
                                                 className={`option ${
-                                                    message.selected === option ? "selected" : ""}`}
+                                                    message.selected === option.label ? "selected" : ""}`}
                                                 onClick={() => this.handleOptionSelected(message,option)}
-                                                >{option}
-                                            </button>
+                                                >{option.label}
+                                            </a>
                                         )
                                     }) }
                                 </div>

@@ -182,6 +182,7 @@
     justify-content: flex-start;
     align-items: center;
     margin-top: 1rem;
+    margin-bottom: 1rem;
     flex-wrap: wrap;
     padding-left: 2rem;
 }
@@ -197,6 +198,7 @@
     font-size: 0.9em;
     font-weight: 600;
     user-select: none;
+    text-decoration: none;
 }
 
 .option:focus {
